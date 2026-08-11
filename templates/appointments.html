@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +18,36 @@
             background: #f4f7fb;
         }
 
-        header {
+        nav {
             background: #1976d2;
+            padding: 15px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
             color: white;
-            padding: 20px 8%;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .container {
@@ -30,7 +57,7 @@
             background: white;
             padding: 35px;
             border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -46,11 +73,13 @@
             font-weight: bold;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 15px;
         }
 
         button {
@@ -73,49 +102,101 @@
 
 <body>
 
-<header>
-    <h2>Clinic Appointment System</h2>
-</header>
+    <nav>
 
-<div class="container">
+        <div class="logo">
+            🏥 Clinic Appointment System
+        </div>
 
-    <h1>Book Appointment</h1>
+        <div class="nav-links">
 
-    <form action="/book_appointment" method="POST">
+            <a href="/">🏠 Home</a>
 
-        <label>Patient</label>
-        <select name="patient_id" required>
-    <option value="">Select Patient</option>
+            <a href="/dashboard">📊 Dashboard</a>
 
-    {% for patient in patients %}
-        <option value="{{ patient.id }}">
-            {{ patient.name }}
-        </option>
-    {% endfor %}
-</select>
+            <a href="/patients">👤 Patients</a>
 
-        <label>Doctor</label>
-        <select name="doctor_id" required>
-    <option value="">Select Doctor</option>
+            <a href="/doctors">🧑‍⚕️ Doctors</a>
 
-    {% for doctor in doctors %}
-        <option value="{{ doctor.id }}">
-            Dr. {{ doctor.name }} - {{ doctor.specialization }}
-        </option>
-    {% endfor %}
-</select>
+            <a href="/appointments">📅 Appointments</a>
 
-        <label>Appointment Date</label>
-        <input type="date" name="appointment_date" required>
+        </div>
 
-        <label>Appointment Time</label>
-        <input type="time" name="appointment_time" required>
+    </nav>
 
-        <button type="submit">Book Appointment</button>
 
-    </form>
+    <div class="container">
 
-</div>
+        <h1>Book Appointment</h1>
+
+        <form action="/book_appointment" method="POST">
+
+            <label for="patient_id">Patient</label>
+
+            <select id="patient_id" name="patient_id" required>
+
+                <option value="">Select Patient</option>
+
+                {% for patient in patients %}
+
+                    <option value="{{ patient.id }}">
+                        {{ patient.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label for="doctor_id">Doctor</label>
+
+            <select id="doctor_id" name="doctor_id" required>
+
+                <option value="">Select Doctor</option>
+
+                {% for doctor in doctors %}
+
+                    <option value="{{ doctor.id }}">
+                        Dr. {{ doctor.name }} - {{ doctor.specialization }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <label for="appointment_date">
+                Appointment Date
+            </label>
+
+            <input
+                type="date"
+                id="appointment_date"
+                name="appointment_date"
+                required
+            >
+
+
+            <label for="appointment_time">
+                Appointment Time
+            </label>
+
+            <input
+                type="time"
+                id="appointment_time"
+                name="appointment_time"
+                required
+            >
+
+
+            <button type="submit">
+                Book Appointment
+            </button>
+
+        </form>
+
+    </div>
 
 </body>
+
 </html>
