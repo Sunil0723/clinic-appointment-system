@@ -74,9 +74,57 @@
 
 <body>
 
-<header>
-    <h2>Clinic Appointment System</h2>
-</header>
+<nav style="
+    background: #1976d2;
+    padding: 15px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+">
+
+    <div style="
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    ">
+        🏥 Clinic Appointment System
+    </div>
+
+    <div style="
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    ">
+
+        <a href="/"
+           style="color: white; text-decoration: none; padding: 8px 12px;">
+            🏠 Home
+        </a>
+
+        <a href="/dashboard"
+           style="color: white; text-decoration: none; padding: 8px 12px;">
+            📊 Dashboard
+        </a>
+
+        <a href="/patients"
+           style="color: white; text-decoration: none; padding: 8px 12px;">
+            👤 Patients
+        </a>
+
+        <a href="/doctors"
+           style="color: white; text-decoration: none; padding: 8px 12px;">
+            🧑‍⚕️ Doctors
+        </a>
+
+        <a href="/appointments"
+           style="color: white; text-decoration: none; padding: 8px 12px;">
+            📅 Appointments
+        </a>
+
+    </div>
+
+</nav>
 
 <div class="container">
 
@@ -85,6 +133,7 @@
     <form action="/add_doctor" method="POST">
 
         <label>Doctor Name</label>
+
         <input
             type="text"
             name="name"
@@ -93,6 +142,7 @@
         >
 
         <label>Specialization</label>
+
         <input
             type="text"
             name="specialization"
