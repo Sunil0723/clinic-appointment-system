@@ -3,15 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Clinic Appointment System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #333;
+        }
+
+        header {
+            background: #1976d2;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            font-size: 24px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px;
+            background: white;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: #1976d2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #125ca8;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 50px 8%;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #1976d2;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Clinic Appointment Management System</h1>
+    <header>
+        <h2>Clinic Appointment System</h2>
 
-    <p>Welcome to the clinic appointment system.</p>
+        <nav>
+            <a href="/">Home</a>
+            <a href="#">Doctors</a>
+            <a href="#">Appointments</a>
+        </nav>
+    </header>
 
-    <button>Book Appointment</button>
+    <section class="hero">
+        <h1>Welcome to Our Clinic</h1>
+
+        <p>
+            Manage patients and appointments easily and efficiently.
+        </p>
+
+        <button class="btn">Book Appointment</button>
+    </section>
+
+    <section class="features">
+
+        <div class="card">
+            <h3>👨‍⚕️ Doctors</h3>
+            <p>
+                View doctors and their available schedules.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>👤 Patients</h3>
+            <p>
+                Manage patient information securely.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📅 Appointments</h3>
+            <p>
+                Book and manage clinic appointments.
+            </p>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Clinic Appointment Management System</p>
+    </footer>
 
 </body>
 </html>
