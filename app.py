@@ -4,6 +4,10 @@ import mysql.connector
 app = Flask(__name__)
 
 
+# =========================
+# DATABASE CONNECTION
+# =========================
+
 def get_db_connection():
     connection = mysql.connector.connect(
         host="localhost",
@@ -33,59 +37,62 @@ def dashboard():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    # Total patients
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM patients
-    """)
-    total_patients = cursor.fetchone()["total"]
+    try:
+        # Total patients
+        cursor.execute("""
+            SELECT COUNT(*) AS total
+            FROM patients
+        """)
+        total_patients = cursor.fetchone()["total"]
 
-    # Total doctors
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM doctors
-    """)
-    total_doctors = cursor.fetchone()["total"]
+        # Total doctors
+        cursor.execute("""
+            SELECT COUNT(*) AS total
+            FROM doctors
+        """)
+        total_doctors = cursor.fetchone()["total"]
 
-    # Total appointments
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM appointments
-    """)
-    total_appointments = cursor.fetchone()["total"]
+        # Total appointments
+        cursor.execute("""
+            SELECT COUNT(*) AS total
+            FROM appointments
+        """)
+        total_appointments = cursor.fetchone()["total"]
 
-    # Today's appointments
-    cursor.execute("""
-        SELECT COUNT(*) AS total
-        FROM appointments
-        WHERE appointment_date = CURDATE()
-    """)
-    todays_appointments = cursor.fetchone()["total"]
+        # Today's appointments
+        cursor.execute("""
+            SELECT COUNT(*) AS total
+            FROM appointments
+            WHERE appointment_date = CURDATE()
+        """)
+        todays_appointments = cursor.fetchone()["total"]
 
-    # Recent appointments
-    cursor.execute("""
-        SELECT
-            a.id,
-            p.name AS patient_name,
-            d.name AS doctor_name,
-            d.specialization,
-            a.appointment_date,
-            a.appointment_time,
-            a.status
-        FROM appointments a
-        JOIN patients p
-            ON a.patient_id = p.id
-        JOIN doctors d
-            ON a.doctor_id = d.id
-        ORDER BY a.appointment_date DESC,
-                 a.appointment_time DESC
-        LIMIT 5
-    """)
+        # Recent appointments
+        cursor.execute("""
+            SELECT
+                a.id,
+                p.name AS patient_name,
+                d.name AS doctor_name,
+                d.specialization,
+                a.appointment_date,
+                a.appointment_time,
+                a.status
+            FROM appointments a
+            JOIN patients p
+                ON a.patient_id = p.id
+            JOIN doctors d
+                ON a.doctor_id = d.id
+            ORDER BY
+                a.appointment_date DESC,
+                a.appointment_time DESC
+            LIMIT 5
+        """)
 
-    recent_appointments = cursor.fetchall()
+        recent_appointments = cursor.fetchall()
 
-    cursor.close()
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
     return render_template(
         "dashboard.html",
@@ -106,28 +113,37 @@ def patients():
     return render_template("patients.html")
 
 
+# =========================
+# ADD PATIENT
+# =========================
+
 @app.route("/add_patient", methods=["POST"])
 def add_patient():
 
     name = request.form["name"]
     phone = request.form["phone"]
-    email = request.form["email"]
+    email = request.form.get("email", "")
 
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    query = """
-        INSERT INTO patients
-        (name, phone, email)
-        VALUES (%s, %s, %s)
-    """
+    try:
+        query = """
+            INSERT INTO patients
+            (name, phone, email)
+            VALUES (%s, %s, %s)
+        """
 
-    cursor.execute(query, (name, phone, email))
+        cursor.execute(
+            query,
+            (name, phone, email)
+        )
 
-    connection.commit()
+        connection.commit()
 
-    cursor.close()
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
     return redirect("/patients")
 
@@ -141,6 +157,10 @@ def doctors():
     return render_template("doctors.html")
 
 
+# =========================
+# ADD DOCTOR
+# =========================
+
 @app.route("/add_doctor", methods=["POST"])
 def add_doctor():
 
@@ -150,18 +170,23 @@ def add_doctor():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    query = """
-        INSERT INTO doctors
-        (name, specialization)
-        VALUES (%s, %s)
-    """
+    try:
+        query = """
+            INSERT INTO doctors
+            (name, specialization)
+            VALUES (%s, %s)
+        """
 
-    cursor.execute(query, (name, specialization))
+        cursor.execute(
+            query,
+            (name, specialization)
+        )
 
-    connection.commit()
+        connection.commit()
 
-    cursor.close()
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
     return redirect("/doctors")
 
@@ -176,24 +201,33 @@ def appointments():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    cursor.execute("""
-        SELECT id, name
-        FROM patients
-        ORDER BY name
-    """)
+    try:
+        # Get patients
+        cursor.execute("""
+            SELECT
+                id,
+                name
+            FROM patients
+            ORDER BY name
+        """)
 
-    patients = cursor.fetchall()
+        patients = cursor.fetchall()
 
-    cursor.execute("""
-        SELECT id, name, specialization
-        FROM doctors
-        ORDER BY name
-    """)
+        # Get doctors
+        cursor.execute("""
+            SELECT
+                id,
+                name,
+                specialization
+            FROM doctors
+            ORDER BY name
+        """)
 
-    doctors = cursor.fetchall()
+        doctors = cursor.fetchall()
 
-    cursor.close()
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
     return render_template(
         "appointments.html",
@@ -217,31 +251,33 @@ def book_appointment():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    query = """
-        INSERT INTO appointments
-        (
-            patient_id,
-            doctor_id,
-            appointment_date,
-            appointment_time
+    try:
+        query = """
+            INSERT INTO appointments
+            (
+                patient_id,
+                doctor_id,
+                appointment_date,
+                appointment_time
+            )
+            VALUES (%s, %s, %s, %s)
+        """
+
+        cursor.execute(
+            query,
+            (
+                patient_id,
+                doctor_id,
+                appointment_date,
+                appointment_time
+            )
         )
-        VALUES (%s, %s, %s, %s)
-    """
 
-    cursor.execute(
-        query,
-        (
-            patient_id,
-            doctor_id,
-            appointment_date,
-            appointment_time
-        )
-    )
+        connection.commit()
 
-    connection.commit()
-
-    cursor.close()
-    connection.close()
+    finally:
+        cursor.close()
+        connection.close()
 
     return redirect("/appointments")
 
