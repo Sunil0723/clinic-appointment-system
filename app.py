@@ -74,5 +74,54 @@ def add_doctor():
     return redirect("/doctors")
 
 
+@app.route("/appointments")
+def appointments():
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("SELECT id, name FROM patients")
+    patients = cursor.fetchall()
+
+    cursor.execute("SELECT id, name, specialization FROM doctors")
+    doctors = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        "appointments.html",
+        patients=patients,
+        doctors=doctors
+    )
+
+
+@app.route("/book_appointment", methods=["POST"])
+def book_appointment():
+    patient_id = request.form["patient_id"]
+    doctor_id = request.form["doctor_id"]
+    appointment_date = request.form["appointment_date"]
+    appointment_time = request.form["appointment_time"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    query = """
+        INSERT INTO appointments
+        (patient_id, doctor_id, appointment_date, appointment_time)
+        VALUES (%s, %s, %s, %s)
+    """
+
+    cursor.execute(
+        query,
+        (patient_id, doctor_id, appointment_date, appointment_time)
+    )
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    return redirect("/appointments")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
