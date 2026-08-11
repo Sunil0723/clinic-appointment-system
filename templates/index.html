@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,24 +20,41 @@
             color: #333;
         }
 
-        header {
+        /* Navigation */
+
+        nav {
             background: #1976d2;
-            color: white;
-            padding: 20px 8%;
+            padding: 15px 8%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
 
-        header h2 {
-            font-size: 24px;
+        .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
         }
 
-        nav a {
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
             color: white;
             text-decoration: none;
-            margin-left: 25px;
+            padding: 8px 12px;
+            border-radius: 5px;
         }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Hero */
 
         .hero {
             text-align: center;
@@ -56,6 +74,7 @@
         }
 
         .btn {
+            display: inline-block;
             background: #1976d2;
             color: white;
             border: none;
@@ -63,11 +82,14 @@
             border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .btn:hover {
             background: #125ca8;
         }
+
+        /* Features */
 
         .features {
             display: flex;
@@ -83,7 +105,7 @@
             padding: 30px;
             text-align: center;
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
         .card h3 {
@@ -91,141 +113,148 @@
             margin-bottom: 12px;
         }
 
+        /* Footer */
+
         footer {
             text-align: center;
             padding: 20px;
             background: #222;
             color: white;
         }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+        }
     </style>
+
 </head>
 
 <body>
-    <nav style="
-    background: #1976d2;
-    padding: 15px 8%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-">
 
-    <div style="
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-    ">
-        🏥 Clinic Appointment System
-    </div>
+    <!-- Navigation -->
 
-    <div style="
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    ">
+    <nav>
 
-        <a href="/"
-           style="
-               color: white;
-               text-decoration: none;
-               padding: 8px 12px;
-               border-radius: 5px;
-           ">
-            🏠 Home
-        </a>
+        <div class="logo">
+            🏥 Clinic Appointment System
+        </div>
 
-        <a href="/dashboard"
-           style="
-               color: white;
-               text-decoration: none;
-               padding: 8px 12px;
-               border-radius: 5px;
-           ">
-            📊 Dashboard
-        </a>
+        <div class="nav-links">
 
-        <a href="/patients"
-           style="
-               color: white;
-               text-decoration: none;
-               padding: 8px 12px;
-               border-radius: 5px;
-           ">
-            👤 Patients
-        </a>
+            <a href="/">
+                🏠 Home
+            </a>
 
-        <a href="/doctors"
-           style="
-               color: white;
-               text-decoration: none;
-               padding: 8px 12px;
-               border-radius: 5px;
-           ">
-            🧑‍⚕️ Doctors
-        </a>
+            <a href="/dashboard">
+                📊 Dashboard
+            </a>
 
-        <a href="/appointments"
-           style="
-               color: white;
-               text-decoration: none;
-               padding: 8px 12px;
-               border-radius: 5px;
-           ">
-            📅 Appointments
-        </a>
+            <a href="/patients">
+                👤 Patients
+            </a>
 
-    </div>
+            <a href="/doctors">
+                🧑‍⚕️ Doctors
+            </a>
 
-</nav>
+            <a href="/appointments">
+                📅 Appointments
+            </a>
 
-    <header>
-        <h2>Clinic Appointment System</h2>
+        </div>
 
-        <nav>
-            <a href="/">Home</a>
-            <a href="#">Doctors</a>
-            <a href="#">Appointments</a>
-        </nav>
-    </header>
+    </nav>
+
+
+    <!-- Hero -->
 
     <section class="hero">
-        <h1>Welcome to Our Clinic</h1>
+
+        <h1>
+            Welcome to Our Clinic
+        </h1>
 
         <p>
             Manage patients and appointments easily and efficiently.
         </p>
 
-        <button class="btn">Book Appointment</button>
+        <a href="/appointments" class="btn">
+            Book Appointment
+        </a>
+
     </section>
+
+
+    <!-- Features -->
 
     <section class="features">
 
         <div class="card">
-            <h3>👨‍⚕️ Doctors</h3>
+
+            <h3>
+                🧑‍⚕️ Doctors
+            </h3>
+
             <p>
-                View doctors and their available schedules.
+                View doctors and their specializations.
             </p>
+
         </div>
 
+
         <div class="card">
-            <h3>👤 Patients</h3>
+
+            <h3>
+                👤 Patients
+            </h3>
+
             <p>
                 Manage patient information securely.
             </p>
+
         </div>
 
+
         <div class="card">
-            <h3>📅 Appointments</h3>
+
+            <h3>
+                📅 Appointments
+            </h3>
+
             <p>
                 Book and manage clinic appointments.
             </p>
+
         </div>
 
     </section>
 
+
+    <!-- Footer -->
+
     <footer>
-        <p>© 2026 Clinic Appointment Management System</p>
+
+        <p>
+            © 2026 Clinic Appointment Management System
+        </p>
+
     </footer>
 
 </body>
+
 </html>
