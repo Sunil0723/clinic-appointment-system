@@ -1,51 +1,170 @@
-from flask import Flask, render_template, request, redirect
-import mysql.connector
+<!DOCTYPE html>
+<html lang="en">
 
-app = Flask(__name__)
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Patients - Clinic Appointment System</title>
 
-def get_db_connection():
-    connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="YOUR_MYSQL_PASSWORD",
-        database="clinic_db"
-    )
-    return connection
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
+        body {
+            margin: 0;
+            background: #f4f7fb;
+        }
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+        nav {
+            background: #1976d2;
+            padding: 15px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
+        .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
 
-@app.route("/patients")
-def patients():
-    return render_template("patients.html")
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
 
-@app.route("/add_patient", methods=["POST"])
-def add_patient():
-    name = request.form["name"]
-    phone = request.form["phone"]
-    email = request.form["email"]
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
 
-    connection = get_db_connection()
-    cursor = connection.cursor()
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    query = """
-        INSERT INTO patients (name, phone, email)
-        VALUES (%s, %s, %s)
-    """
+        h1 {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 25px;
+        }
 
-    cursor.execute(query, (name, phone, email))
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
 
-    connection.commit()
-    cursor.close()
-    connection.close()
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-    return redirect("/patients")
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
+        button:hover {
+            background: #125ca8;
+        }
+    </style>
+</head>
 
-if __name__ == "__main__":
-    app.run(debug=True)
+<body>
+
+    <nav>
+
+        <div class="logo">
+            🏥 Clinic Appointment System
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">🏠 Home</a>
+
+            <a href="/dashboard">📊 Dashboard</a>
+
+            <a href="/patients">👤 Patients</a>
+
+            <a href="/doctors">🧑‍⚕️ Doctors</a>
+
+            <a href="/appointments">📅 Appointments</a>
+
+        </div>
+
+    </nav>
+
+    <div class="container">
+
+        <h1>Patient Registration</h1>
+
+        <form action="/add_patient" method="POST">
+
+            <label for="name">Patient Name</label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter patient name"
+                required
+            >
+
+            <label for="phone">Phone Number</label>
+
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter phone number"
+                required
+            >
+
+            <label for="email">Email</label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter email address"
+            >
+
+            <button type="submit">
+                Register Patient
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
